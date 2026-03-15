@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QUICK CART  — Next.js Application
+
+A product browsing and cart application built with **Next.js 16 (App Router)** and the [DummyJSON Products API](https://dummyjson.com/docs/products).**shadcn/ui**, and **next-themes** for dark/light mode support.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 22+
+- npm
+
+### Install & Run
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/Gowrisankar24/product-catalog-next-app.git
+cd product-catalog-next-app
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+| Feature | Details |
+|---|---|
+| **Product Listing** | Grid of 30 products fetched from DummyJSON, with image, title, and price |
+| **Product Detail** | Full product page with images, description, rating, stock, and add-to-cart |
+| **Cart** | Add, remove, update quantity; persists across page reloads via `localStorage` |
+| **Cart Badge** | Live item count in the sticky navbar |
+| **UI Components** | Built with [shadcn/ui](https://ui.shadcn.com/) — accessible, composable React components styled with Tailwind CSS |
+| **Error Handling** | API errors and 404s are caught and shown gracefully |
 
-To learn more about Next.js, take a look at the following resources:
+### Setup
+ 
+shadcn/ui is already configured in this project. If you want to add more components, run:
+ 
+```bash
+npx shadcn@latest add <component-name>
+# e.g.
+npx shadcn@latest add button
+npx shadcn@latest add card
+npx shadcn@latest add badge
+```
+ 
+Components are copied into `components/ui/` and can be customised freely. They are **not** an external package dependency — you own the code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Approach & Design Choices
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Next.js App Router
 
-## Deploy on Vercel
+The project uses the App Router introduced in Next.js 13+. Product list and detail pages are **React Server Components** — data is fetched on the server with `next: { revalidate: 60 }` for ISR caching. Only components that require interactivity (`AddToCartButton`, `CartContext`, 'theme', the Cart page) are marked `"use client"`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### shadcn/ui + Tailwind CSS
+ 
+shadcn/ui components are built on top of **Base UI** primitives and styled with **Tailwind CSS**. Because components live inside the project, they can be fully customised without fighting a third-party API.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Error Handling
+
+- API calls are wrapped in `try/catch`; HTTP errors throw descriptive messages.
+- Product-not-found triggers Next.js `notFound()` which renders the custom 404 page.
+- A reusable `<ErrorMessage>` component handles unexpected errors on any page.
+
+---
+
+## Project Structure
+
+```
+app/
+├── cart/
+|   └── CartContext.tsx          # Cart / add to cart feature
+├── component/
+|   ├── common/
+|   |    └── ReusableErrMsg.tsx   # err handling
+|   ├── sidebar/
+|   |    └── Sidebar.tsx          # Sidebar
+│   ├── AddToCartButton.tsx       # Add to cart feature
+│   ├── ProductCard.tsx           # Product overview card
+│   └── ThemeSwitch.tsx           # Theme Switch
+├── context/
+│   └── CartContext.tsx           # Cart state + localStorage persistence
+├── lib/
+│   ├── api.ts                    # fetchProducts() + fetchProduct(id)
+│   ├── cartReducer.ts            # Manage state logic
+│   └── types.ts                  # Shared TypeScript types
+├── products/[productId]/         # Dynamic product detail route
+├── global.css                    # global css file
+├── layout.tsx                    # Root layout (CartProvider + Navbar)
+├── not-found.tsx                 # 404 page
+└── page.tsx                      # Catalog Page / product listing
+```
+---
