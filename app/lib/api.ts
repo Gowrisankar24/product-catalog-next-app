@@ -3,7 +3,7 @@ import { Product, ProductsResponse } from './types';
 const BASE_URL = 'https://dummyjson.com';
 
 export async function getAllProduct(): Promise<ProductsResponse> {
-  const res = await fetch(`${BASE_URL}/products?limit=10`, {
+  const res = await fetch(`${BASE_URL}/products?limit=25`, {
     next: { revalidate: 60 },
   });
 
