@@ -1,21 +1,40 @@
 'use client';
 import Link from 'next/link';
-import { AiOutlineProduct } from 'react-icons/ai';
-import { FaCartArrowDown } from 'react-icons/fa';
+import { SidebarNav } from '../../lib/Contsants';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '../../../components/ui/tooltip';
+import { usePathname } from 'next/navigation';
 
 export const Sidebar = () => {
+  const pathname = usePathname();
   return (
-    <nav className='sticky top-14 flex flex-col items-center gap-4 px-2 py-4 h-screen bg-blue-500 dark:bg-black'>
-      <Link href='/'>
-        <span>
-          <AiOutlineProduct size={20} className='dark:text-white' />
-        </span>
-      </Link>
-      <Link href='/cart'>
-        <span>
-          <FaCartArrowDown size={20} className='dark:text-white' />
-        </span>
-      </Link>
+    <nav className='fixed z-40 w-16 top-12 flex flex-col items-center gap-6 px-2 py-6 h-screen bg-linear-to-br from-[#2563EB] to-[#1D4ED8] dark:bg-linear-to-br dark:from-neutral-900 dark:to-neutral-800'>
+      {SidebarNav?.map((d) => {
+        return (
+          <Tooltip key={d.id}>
+            <TooltipTrigger>
+              <div>
+                <Link
+                  href={d.path}
+                  className={`block p-1 rounded-lg transition-colors${
+                    pathname === d.path
+                      ? 'bg-slate-300/30 ring-2 ring-white/50'
+                      : 'bg-transparent'
+                  }`}
+                >
+                  <d.icon className='text-white' size={25} />
+                </Link>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side='right'>
+              <span>{d.title}</span>
+            </TooltipContent>
+          </Tooltip>
+        );
+      })}
     </nav>
   );
 };
