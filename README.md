@@ -30,7 +30,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Feature | Details |
 |---|---|
-| **Product Listing** | Grid of 30 products fetched from DummyJSON, with image, title, and price |
+| **Product Listing** | Grid of 25 products fetched from DummyJSON, with image, title, and price |
 | **Product Detail** | Full product page with images, description, rating, stock, and add-to-cart |
 | **Cart** | Add, remove, update quantity; persists across page reloads via `localStorage` |
 | **Cart Badge** | Live item count in the sticky navbar |
