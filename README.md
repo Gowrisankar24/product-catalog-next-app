@@ -2,6 +2,13 @@
 
 A product browsing and cart application built with **Next.js 16 (App Router)** and the [DummyJSON Products API](https://dummyjson.com/docs/products).**shadcn/ui**, and **next-themes** for dark/light mode support.
 
+## Demo Video
+
+
+
+https://github.com/user-attachments/assets/a860df9a-5c1f-4d3d-97e7-2d7dbcf1ad1d
+
+
 ## Getting Started
 
 ### Prerequisites
