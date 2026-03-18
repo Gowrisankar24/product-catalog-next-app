@@ -7,7 +7,7 @@ export const cartReducer = (
   switch (action.type) {
     case 'ADD_ITEM': {
       const existningCartFind = state.items.find(
-        (d) => (d.product.id = action.product.id),
+        (d) => d.product.id === action.product.id,
       );
       if (existningCartFind) {
         return {
